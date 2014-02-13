@@ -18,4 +18,6 @@ action :dehydrate do
   ::File.open(node_file, "w") do |file|
     file.write(JSON.pretty_generate(node))
   end
+
+  new_resource.updated_by_last_action(true)
 end

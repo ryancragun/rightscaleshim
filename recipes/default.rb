@@ -88,7 +88,7 @@ package "parted"
 
 # TODO: Not sure why running this in the actual rightscale::setup_monitoring does not work
 # But collectd is not installed on Cent 6.3
-packages = node[:rightscale][:collectd_packages]
+packages = node['rightscale']['collectd_packages']
 packages.each do |p|
   package "rightscaleshim install package #{p}" do
     package_name p

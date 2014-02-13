@@ -34,8 +34,8 @@ class Chef
 
       def action_load
         tags = @new_resource.tags
-        node[:server_collection] ||= {}
-        node[:server_collection][@new_resource.name] = {}
+        node.normal['server_collection'] ||= {}
+        node.normal['server_collection'][@new_resource.name] = {}
         all_vm_shim_dirs(node).each do |shim_dir|
           persist_file = ::File.join(shim_dir, "persist.json")
           persist_hash = read_persist_file(persist_file)
@@ -48,14 +48,14 @@ class Chef
                   Chef::Log.info("Passed! These tags match #{persist_hash["tags"]}")
                   uuid = uuid_from_shim_dir(shim_dir)
                   Chef::Log.info("Wait up... Is there a uuid? #{uuid}")
-                  node[:server_collection][@new_resource.name][uuid] = persist_hash["tags"] if uuid
+                  node.normal['server_collection'][@new_resource.name][uuid] = persist_hash["tags"] if uuid
                   next
                 end
               end
             end
           end
         end
-        Chef::Log.info("This here be da node yo.. #{node[:server_collection][@new_resource.name].length}")
+        Chef::Log.info("This here be da node yo.. #{node['server_collection'][@new_resource.name].length}")
         true
       end
 

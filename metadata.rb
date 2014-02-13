@@ -1,3 +1,4 @@
+name             "rightscaleshim"
 maintainer       "Ryan J. Geyer"
 maintainer_email "me@ryangeyer.com"
 license          "All rights reserved"

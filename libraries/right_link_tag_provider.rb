@@ -49,7 +49,7 @@ class Chef
 
       def action_load
         read_write_my_persist_file(node) do |json|
-          node[:right_link_tags] = json["tags"]
+          node.normal['right_link_tags'] = json["tags"]
         end
         true
       end

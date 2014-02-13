@@ -22,20 +22,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-default[:cloud][:provider] = 'vagrant'
-default[:cloud][:private_ips] = []
-default[:cloud][:public_ips] = []
+node.default['cloud']['provider'] = 'vagrant'
+node.default['cloud']['private_ips'] = []
+node.default['cloud']['public_ips'] = []
 
-default[:rightscale][:instance_uuid] = "UUID"
-default[:rightscale][:servers][:sketchy][:hostname] = 'localhost'
+node.default['rightscale']['instance_uuid'] = "UUID"
+node.default['rightscale']['servers']['sketchy']['hostname'] = 'localhost'
 
 # If it isn't set, set it
-default[:sys_firewall][:enabled] = 'disabled'
+node.default['sys_firewall']['enabled'] = 'disabled'
 # If it is set, overwrite it
-node[:sys_firewall][:enabled] = 'disabled'
+node.normal['sys_firewall']['enabled'] = 'disabled'
 
-default[:sys][:swap_size] = "0.5"
-default[:sys][:swap_file] = "/mnt/ephemeral/swapfile"
+node.default['sys']['swap_size'] = "0.5"
+node.default['sys']['swap_file'] = "/mnt/ephemeral/swapfile"
 
 node['network']['interfaces'].each do |iface|
   iface[1]['addresses'].each do |addr|
@@ -44,11 +44,11 @@ node['network']['interfaces'].each do |iface|
     if details['family'] == 'inet'
       case ip
         when /^10|172|192\./
-          node[:cloud][:private_ips] << ip
+          node.normal['cloud']['private_ips'] << ip
         when "127.0.0.1"
           # Intentionally don't do anything
         else
-          node['cloud']['public_ips'] << ip
+          node.normal['cloud']['public_ips'] << ip
       end
     end
   end

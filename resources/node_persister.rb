@@ -13,3 +13,5 @@
 # limitations under the License.
 
 actions :dehydrate
+
+default_action :dehydrate
