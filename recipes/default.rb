@@ -25,32 +25,8 @@
 
 ############### START COMPILE TIME EXECUTION
 
-# Hack up some filesystem things *right now*
-#d = directory "/opt/rightscale/sandbox/bin" do
-#  recursive true
-#  action :nothing
-#end
-
-#d.run_action(:create)
-
-#l = link "/opt/rightscale/sandbox/bin/gem" do
-#  to "/opt/chef/embedded/bin/gem"
-#  action :nothing
-#end
-
-#l.run_action(:create)
-
-# RightImage dependencies
-#%w{libxml2-devel libxslt-devel}.each do |p|
-#  pack = package p do
-#    action :nothing
-#  end
-#
-#  pack.run_action(:install)
-#end
-
-chef_gem "chef-rewind"
-require 'chef/rewind'
+#chef_gem "chef-rewind"
+#require 'chef/rewind'
 
 ############### END COMPILE TIME EXECUTION
 
@@ -76,31 +52,31 @@ cookbook_file "/etc/pki/rpm-gpg/RPM-GPG-KEY-RightScale" do
   source "RPM-GPG-KEY-RightScale"
 end
 
-include_recipe "cron"
+#include_recipe "cron"
 
 if node['platform_family'] == "rhel"
-  include_recipe "yum::epel"
+  include_recipe "yum-epel"
 end
 
-package "ruby"
-package "collectd-rrdtool"
-package "parted"
+#package "ruby"
+#package "collectd-rrdtool"
+#package "parted"
 
 # TODO: Not sure why running this in the actual rightscale::setup_monitoring does not work
 # But collectd is not installed on Cent 6.3
-packages = node['rightscale']['collectd_packages']
-packages.each do |p|
-  package "rightscaleshim install package #{p}" do
-    package_name p
-    action :install
-  end
-end
+#packages = node['rightscale']['collectd_packages']
+#packages.each do |p|
+#  package "rightscaleshim install package #{p}" do
+#    package_name p
+#    action :install
+#  end
+#end
 
-include_recipe "rightscale::setup_monitoring"
+#include_recipe "rightscale::setup_monitoring"
 
 # Don't let rightscale::setup_monitoring bully us
-rewind "package[collectd]" do
-  only_if { false }
-end
+#rewind "package[collectd]" do
+#  only_if { false }
+#end
 
-sys_firewall "2222"
+#sys_firewall "2222"

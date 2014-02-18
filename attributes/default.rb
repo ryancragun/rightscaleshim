@@ -37,6 +37,9 @@ node.normal['sys_firewall']['enabled'] = 'disabled'
 node.default['sys']['swap_size'] = "0.5"
 node.default['sys']['swap_file'] = "/mnt/ephemeral/swapfile"
 
+private_ips = []
+public_ips = []
+
 node['network']['interfaces'].each do |iface|
   iface[1]['addresses'].each do |addr|
     ip = addr[0]
@@ -44,12 +47,15 @@ node['network']['interfaces'].each do |iface|
     if details['family'] == 'inet'
       case ip
         when /^10|172|192\./
-          node.normal['cloud']['private_ips'] << ip
+          private_ips << ip
         when "127.0.0.1"
           # Intentionally don't do anything
         else
-          node.normal['cloud']['public_ips'] << ip
+          public_ips << ip
       end
     end
   end
 end
+
+node.set['cloud']['private_ips'] = private_ips
+node.set['cloud']['public_ips'] = public_ips
